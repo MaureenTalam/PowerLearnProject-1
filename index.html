@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Bursary Application System</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul id="nav-links">
+            <li><a href="#" data-target="home">Home</a></li>
+            <li><a href="#" data-target="signup">Sign Up</a></li>
+            <li><a href="#" data-target="login">Login</a></li>
+            <li><a href="#" data-target="apply" class="hidden" id="apply-link">Apply for Bursary</a></li>
+            <li><a href="#" data-target="logout" class="hidden" id="logout-link">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Home Section -->
+        <section id="home-section">
+            <h2>Welcome to the Student Bursary Application System</h2>
+            <p>Please sign up or log in to apply for bursaries.</p>
+        </section>
+
+        <!-- Sign Up Section -->
+        <section id="signup-section" class="hidden">
+            <h2>Sign Up</h2>
+            <div id="signup-message"></div>
+            <form id="signup-form">
+                <label for="signup-fullname">Full Name:</label>
+                <input type="text" id="signup-fullname" name="fullname" required>
+
+                <label for="signup-username">Username:</label>
+                <input type="text" id="signup-username" name="username" required>
+
+                <label for="signup-email">Email:</label>
+                <input type="email" id="signup-email" name="email" required>
+
+                <label for="signup-password">Password:</label>
+                <input type="password" id="signup-password" name="password" required>
+
+                <button type="submit">Sign Up</button>
+            </form>
+            <p>Already have an account? <a href="#" data-target="login">Login here</a>.</p>
+        </section>
+
+        <!-- Login Section -->
+        <section id="login-section" class="hidden">
+            <h2>Login</h2>
+            <div id="login-message"></div>
+            <form id="login-form">
+                <label for="login-email">Email:</label>
+                <input type="email" id="login-email" name="email" required>
+
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" name="password" required>
+
+                <button type="submit">Login</button>
+            </form>
+            <p>Don't have an account? <a href="#" data-target="signup">Sign up here</a>.</p>
+        </section>
+
+        <!-- Apply for Bursary Section -->
+        <section id="apply-section" class="hidden">
+            <h2>Bursary Application</h2>
+            <div id="apply-message"></div>
+            <form id="apply-form">
+                <!-- Personal Information -->
+                <h3>Personal Information</h3>
+                <label for="apply-fullname">Full Name:</label>
+                <input type="text" id="apply-fullname" name="fullname" required>
+
+                <label for="apply-age">Age:</label>
+                <input type="number" id="apply-age" name="age" min="1" required>
+
+                <label for="apply-contact">Contact Information:</label>
+                <input type="text" id="apply-contact" name="contact" required>
+
+                <!-- Educational Background -->
+                <h3>Educational Background</h3>
+                <label for="apply-county">County of Residence:</label>
+                <input type="text" id="apply-county" name="county" required>
+
+                <label for="apply-town">Town:</label>
+                <input type="text" id="apply-town" name="town" required>
+
+                <label for="apply-education-level">Level of Education:</label>
+                <select id="apply-education-level" name="educationLevel" required>
+                    <option value="">--Select Level--</option>
+                    <option value="High School">High School</option>
+                    <option value="Diploma">Diploma</option>
+                    <option value="Bachelor's">Bachelor's</option>
+                    <option value="Master's">Master's</option>
+                    <option value="Doctorate">Doctorate</option>
+                </select>
+
+                <label for="apply-institution">Institution Name:</label>
+                <input type="text" id="apply-institution" name="institution" required>
+
+                <label for="apply-admission-number">Admission Number:</label>
+                <input type="text" id="apply-admission-number" name="admissionNumber" required>
+
+                <!-- Orphan Status -->
+                <h3>Orphan Status</h3>
+                <label>
+                    <input type="checkbox" id="is-orphan" name="isOrphan">
+                    Are you an orphan?
+                </label>
+
+                <!-- Parent Information (Displayed if Not an Orphan) -->
+                <div id="parent-info" class="parent-info hidden">
+                    <h4>Parent Information</h4>
+                    <label for="parent-fullname">Parent's Full Name:</label>
+                    <input type="text" id="parent-fullname" name="parentFullname">
+
+                    <label for="parent-contact">Parent's Contact Information:</label>
+                    <input type="text" id="parent-contact" name="parentContact">
+
+                    <label for="parent-occupation">Parent's Occupation:</label>
+                    <input type="text" id="parent-occupation" name="parentOccupation">
+
+                    <label for="parent-age">Parent's Age:</label>
+                    <input type="number" id="parent-age" name="parentAge" min="1">
+
+                    <label for="parent-nationality">Parent's Nationality:</label>
+                    <input type="text" id="parent-nationality" name="parentNationality">
+                </div>
+
+                <button type="submit">Submit Application</button>
+            </form>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; Student Bursary Application portal
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Utility Functions
+
+        /**
+         * Switches the visible section based on the target ID.
+         * @param {string} target - The ID of the target section to display.
+         */
+        function showSection(target) {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                if (section.id === target + '-section') {
+                    section.classList.remove('hidden');
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+
+            // Highlight active link (optional enhancement)
+            const navLinks = document.querySelectorAll('nav ul li a');
+            navLinks.forEach(link => {
+                if (link.dataset.target === target) {
+                    link.style.backgroundColor = '#575757';
+                    link.style.borderRadius = '4px';
+                } else {
+                    link.style.backgroundColor = 'transparent';
+                }
+            });
+        }
+
+        /**
+         * Displays a message in a specified container.
+         * @param {string} containerId - The ID of the container to display the message.
+         * @param {string} message - The message text.
+         * @param {string} type - The type of message ('success' or 'error').
+         */
+        function displayMessage(containerId, message, type) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `<div class="message ${type}">${message}</div>`;
+            // Automatically remove the message after 5 seconds
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        /**
+         * Retrieves the current logged-in user from sessionStorage.
+         * @returns {object|null} - The user object or null if not logged in.
+         */
+        function getCurrentUser() {
+            const userEmail = sessionStorage.getItem('loggedInUser');
+            if (!userEmail) return null;
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            return users.find(user => user.email === userEmail) || null;
+        }
+
+        /**
+         * Updates the navigation links based on the user's authentication state.
+         */
+        function updateNav() {
+            const user = getCurrentUser();
+            const applyLink = document.getElementById('apply-link');
+            const logoutLink = document.getElementById('logout-link');
+            const loginLink = document.querySelector('a[data-target="login"]');
+            const signupLink = document.querySelector('a[data-target="signup"]');
+
+            if (user) {
+                applyLink.classList.remove('hidden');
+                logoutLink.classList.remove('hidden');
+                loginLink.parentElement.classList.add('hidden');
+                signupLink.parentElement.classList.add('hidden');
+            } else {
+                applyLink.classList.add('hidden');
+                logoutLink.classList.add('hidden');
+                loginLink.parentElement.classList.remove('hidden');
+                signupLink.parentElement.classList.remove('hidden');
+            }
+        }
+
+        /**
+         * Toggles the visibility of parent information fields based on orphan status.
+         */
+        function toggleParentInfo() {
+            const isOrphanCheckbox = document.getElementById('is-orphan');
+            const parentInfoDiv = document.getElementById('parent-info');
+
+            if (isOrphanCheckbox.checked) {
+                parentInfoDiv.classList.add('hidden');
+                // Clear parent fields when hidden
+                parentInfoDiv.querySelectorAll('input').forEach(input => {
+                    input.value = '';
+                });
+            } else {
+                parentInfoDiv.classList.remove('hidden');
+            }
+        }
+
+        // Initial Setup
+        document.addEventListener('DOMContentLoaded', () => {
+            updateNav();
+            showSection('home');
+
+            // Navigation Link Clicks
+            document.querySelectorAll('nav ul li a[data-target]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = link.getAttribute('data-target');
+                    if (target === 'logout') {
+                        logoutUser();
+                    } else {
+                        showSection(target);
+                    }
+                });
+            });
+
+            // Handle internal navigation links within forms
+            document.querySelectorAll('a[data-target]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = link.getAttribute('data-target');
+                    showSection(target);
+                });
+            });
+
+            // Sign Up Form Submission
+            document.getElementById('signup-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const fullname = document.getElementById('signup-fullname').value.trim();
+                const username = document.getElementById('signup-username').value.trim();
+                const email = document.getElementById('signup-email').value.trim().toLowerCase();
+                const password = document.getElementById('signup-password').value;
+
+                // Basic Validation
+                if (!fullname || !username || !email || !password) {
+                    displayMessage('signup-message', 'Please fill out all fields.', 'error');
+                    return;
+                }
+
+                // Simple Email Format Validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    displayMessage('signup-message', 'Please enter a valid email address.', 'error');
+                    return;
+                }
+
+                // Retrieve existing users
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+
+                // Check if email already exists
+                const userExists = users.some(user => user.email === email);
+                if (userExists) {
+                    displayMessage('signup-message', 'Email is already registered.', 'error');
+                    return;
+                }
+
+                // Add new user
+                users.push({ fullname, username, email, password });
+                localStorage.setItem('users', JSON.stringify(users));
+
+                // Clear form
+                document.getElementById('signup-form').reset();
+
+                displayMessage('signup-message', 'Registration successful. You can now log in.', 'success');
+            });
+
+            // Login Form Submission
+            document.getElementById('login-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value.trim().toLowerCase();
+                const password = document.getElementById('login-password').value;
+
+                // Retrieve existing users
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+
+                // Find user
+                const user = users.find(user => user.email === email && user.password === password);
+
+                if (user) {
+                    // Set session
+                    sessionStorage.setItem('loggedInUser', user.email);
+                    updateNav();
+                    showSection('apply');
+                    displayMessage('login-message', `Welcome, ${user.fullname}! You are now logged in.`, 'success');
+                } else {
+                    displayMessage('login-message', 'Invalid email or password.', 'error');
+                }
+            });
+
+            // Apply for Bursary Form Submission
+            document.getElementById('apply-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const fullname = document.getElementById('apply-fullname').value.trim();
+                const age = document.getElementById('apply-age').value.trim();
+                const contact = document.getElementById('apply-contact').value.trim();
+                const county = document.getElementById('apply-county').value.trim();
+                const town = document.getElementById('apply-town').value.trim();
+                const educationLevel = document.getElementById('apply-education-level').value;
+                const institution = document.getElementById('apply-institution').value.trim();
+                const admissionNumber = document.getElementById('apply-admission-number').value.trim();
+                const isOrphan = document.getElementById('is-orphan').checked;
+
+                // Parent Information (if not orphan)
+                let parentInfo = null;
+                if (!isOrphan) {
+                    const parentFullname = document.getElementById('parent-fullname').value.trim();
+                    const parentContact = document.getElementById('parent-contact').value.trim();
+                    const parentOccupation = document.getElementById('parent-occupation').value.trim();
+                    const parentAge = document.getElementById('parent-age').value.trim();
+                    const parentNationality = document.getElementById('parent-nationality').value.trim();
+
+                    // Basic Validation for Parent Info
+                    if (!parentFullname || !parentContact || !parentOccupation || !parentAge || !parentNationality) {
+                        displayMessage('apply-message', 'Please fill out all parent information fields.', 'error');
+                        return;
+                    }
+
+                    parentInfo = {
+                        parentFullname,
+                        parentContact,
+                        parentOccupation,
+                        parentAge: Number(parentAge),
+                        parentNationality
+                    };
+                }
+
+                // Basic Validation
+                if (!fullname || !age || !contact || !county || !town || !educationLevel || !institution || !admissionNumber) {
+                    displayMessage('apply-message', 'Please fill out all required fields.', 'error');
+                    return;
+                }
+
+                if (isNaN(age) || Number(age) <= 0) {
+                    displayMessage('apply-message', 'Please enter a valid age.', 'error');
+                    return;
+                }
+
+                // Retrieve applications
+                const applications = JSON.parse(localStorage.getItem('applications')) || [];
+
+                // Get current user
+                const user = getCurrentUser();
+                if (!user) {
+                    displayMessage('apply-message', 'You must be logged in to apply.', 'error');
+                    return;
+                }
+
+                // Add new application
+                applications.push({
+                    userEmail: user.email,
+                    fullname,
+                    age: Number(age),
+                    contact,
+                    county,
+                    town,
+                    educationLevel,
+                    institution,
+                    admissionNumber,
+                    isOrphan,
+                    parentInfo,
+                    date: new Date().toLocaleString()
+                });
+
+                localStorage.setItem('applications', JSON.stringify(applications));
+
+                // Clear form
+                document.getElementById('apply-form').reset();
+                document.getElementById('parent-info').classList.add('hidden');
+
+                displayMessage('apply-message', 'Your application has been submitted successfully.', 'success');
+            });
+
+            // Orphan Checkbox Change Event
+            document.getElementById('is-orphan').addEventListener('change', toggleParentInfo);
+        });
+
+        /**
+         * Logs out the current user by clearing the session and updating the navigation.
+         */
+        function logoutUser() {
+            sessionStorage.removeItem('loggedInUser');
+            updateNav();
+            showSection('home');
+            displayMessage('home-section', 'You have been logged out.', 'success');
+        }
+    </script>
+</body>
+</html>
